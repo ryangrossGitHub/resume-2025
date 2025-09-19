@@ -1,0 +1,37 @@
+/* App-wide styling */
+body {
+    background-color: #0f1116;
+    color: #ffffff;
+    font-family: 'monospace';
+    margin: 20px;
+}
+
+#terminal {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.command > div {
+  margin-bottom: 10px;
+}
+
+.command {
+    font-size: x-large;
+}
+
+#links {
+    flex-direction: column;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#header {
+    max-width: 1200px;
+}
+
+
+
