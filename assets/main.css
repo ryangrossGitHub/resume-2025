@@ -21,6 +21,10 @@ body {
     font-size: x-large;
 }
 
+.response {
+    padding-bottom: 10px;
+}
+
 #links {
     flex-direction: column;
     display: flex;

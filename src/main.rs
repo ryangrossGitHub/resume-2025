@@ -12,7 +12,12 @@ const GITHUB_DISPLAY: &str = "ryangrossGitHub";
 const BLANK: &str = "_blank";
 
 const CREDENTIALS_COMMAND: &str = " >> credentials ";
-const CREDENTIALS_RESPONSE: &str = "Clearance | Masters Computer Science University 2023 | Bachelors Computer Engineering University 2012";
+const CREDENTIALS_RESPONSE: &str = "TS SCI | MS Computer Science George Washington University 2023 | BS Computer Engineering University 2012";
+
+const SKILLS_SOFT_COMMAND: &str = " >> skills --soft ";
+const SKILLS_SOFT_RESPONSE: &str = "Agile: 13yrs | Principal Investigator/Product Owner (customer facing): 7yrs | Manager: 4yrs | Proposal Writing: 3yrs";
+
+const SKILLS_HARD_COMMAND: &str = " >> skills --hard --professional ";
 
 fn main() {
     dioxus::launch(App);
@@ -45,7 +50,9 @@ fn App() -> Element {
 #[component]
 fn Terminal() -> Element {
     let mut is_command_typed = use_signal(|| false);
-    let mut is_credentials_typed = use_signal(|| false);
+    let mut is_credentials_cmd_typed = use_signal(|| false);
+    let mut is_skills_soft_cmd_typed = use_signal(|| false);
+    let mut is_skills_hard_cmd_typed = use_signal(|| false);
     rsx! {
         div {
             id: "terminal",
@@ -63,13 +70,36 @@ fn Terminal() -> Element {
                     TypedText { 
                         text: "{CREDENTIALS_COMMAND}",
                         on_complete: move || {
-                            is_credentials_typed.set(true);
+                            is_credentials_cmd_typed.set(true);
                         }
                     }
                 }
             }
-            if is_credentials_typed() {
-                div {"{CREDENTIALS_RESPONSE}"}
+            if is_credentials_cmd_typed() {
+                div {class: "response", "{CREDENTIALS_RESPONSE}"}
+            }
+            if is_credentials_cmd_typed() {
+                div {
+                    TypedText { 
+                        text: "{SKILLS_SOFT_COMMAND}",
+                        on_complete: move || {
+                            is_skills_soft_cmd_typed.set(true);
+                        }
+                    }
+                }
+            }
+            if is_skills_soft_cmd_typed() {
+                div {class: "response", "{SKILLS_SOFT_RESPONSE}"}
+            }
+            if is_skills_soft_cmd_typed() {
+                div {
+                    TypedText { 
+                        text: "{SKILLS_HARD_COMMAND}",
+                        on_complete: move || {
+                            is_skills_hard_cmd_typed.set(true);
+                        }
+                    }
+                }
             }
         }
         div {
