@@ -25,6 +25,12 @@ body {
     padding-bottom: 10px;
 }
 
+.hard_skill_spaces {
+  color: white;
+  background-color: white;
+  display: inline;
+}
+
 #links {
     flex-direction: column;
     display: flex;

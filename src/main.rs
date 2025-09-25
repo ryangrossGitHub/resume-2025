@@ -1,3 +1,5 @@
+use std::usize;
+
 use dioxus::prelude::*;
 use gloo_timers::future::TimeoutFuture;
 
@@ -18,6 +20,45 @@ const SKILLS_SOFT_COMMAND: &str = " >> skills --soft ";
 const SKILLS_SOFT_RESPONSE: &str = "Agile: 13yrs | Principal Investigator/Product Owner (customer facing): 7yrs | Manager: 4yrs | Proposal Writing: 3yrs";
 
 const SKILLS_HARD_COMMAND: &str = " >> skills --hard --professional ";
+const SKILLS_HARD_RESPONSE_SPACE: &str = "_";
+const SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER: usize = 6;
+
+struct HardSkill {
+    lang: &'static str,
+    years: usize,
+    color: &'static str
+}
+
+static JAVA: HardSkill = HardSkill {
+    lang: "Java",
+    years: 13,
+    color: "red"
+};
+
+
+static SQL: HardSkill = HardSkill {
+    lang: "SQL",
+    years: 11,
+    color: "white"
+};
+
+static AWS: HardSkill = HardSkill {
+    lang: "AWS",
+    years: 10,
+    color: "orange"
+};
+
+static Docker: HardSkill = HardSkill {
+    lang: "Docker",
+    years: 6,
+    color: "blue"
+};
+
+static Python: HardSkill = HardSkill {
+    lang: "Python",
+    years: 3,
+    color: "purple"
+};
 
 fn main() {
     dioxus::launch(App);
@@ -27,6 +68,7 @@ fn main() {
 struct TypedTextProps {
     text: String,
     on_complete: EventHandler<()>,
+    class: Option<String>
 }
 
 // Manually implement PartialEq for TypedTextProps.
@@ -101,6 +143,64 @@ fn Terminal() -> Element {
                     }
                 }
             }
+            if is_skills_hard_cmd_typed() {
+                div {
+                    span { color: JAVA.color, font_weight: "bold", "{JAVA.lang} "} 
+                    TypedText { 
+                        text: std::iter::repeat(SKILLS_HARD_RESPONSE_SPACE).take(JAVA.years*SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER).collect::<String>(),
+                        on_complete: move || {
+                            is_skills_hard_cmd_typed.set(true);
+                        },
+                        class: "hard_skill_spaces"
+                    }
+                    span {" {JAVA.years}yrs"}
+                },
+                div {
+                    span { color: SQL.color, font_weight: "bold", "{SQL.lang} "} 
+                    TypedText { 
+                        text: std::iter::repeat(SKILLS_HARD_RESPONSE_SPACE).take(SQL.years*SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER).collect::<String>(),
+                        on_complete: move || {
+                            is_skills_hard_cmd_typed.set(true);
+                        },
+                        class: "hard_skill_spaces"
+                    }
+                    span {" {SQL.years}yrs"}
+                },
+                div {
+                    span { color: AWS.color, font_weight: "bold", "{AWS.lang} "} 
+                    TypedText { 
+                        text: std::iter::repeat(SKILLS_HARD_RESPONSE_SPACE).take(AWS.years*SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER).collect::<String>(),
+                        on_complete: move || {
+                            is_skills_hard_cmd_typed.set(true);
+                        },
+                        class: "hard_skill_spaces"
+                    }
+                    span {" {AWS.years}yrs"}
+                },
+                div {
+                    span { color: Docker.color, font_weight: "bold", "{Docker.lang} "} 
+                    TypedText { 
+                        text: std::iter::repeat(SKILLS_HARD_RESPONSE_SPACE).take(Docker.years*SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER).collect::<String>(),
+                        on_complete: move || {
+                            is_skills_hard_cmd_typed.set(true);
+                        },
+                        class: "hard_skill_spaces"
+                    }
+                    span {" {Docker.years}yrs"}
+                },
+                div {
+                    class: "response", 
+                    span { color: Python.color, font_weight: "bold", "{Python.lang} "} 
+                    TypedText { 
+                        text: std::iter::repeat(SKILLS_HARD_RESPONSE_SPACE).take(Python.years*SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER).collect::<String>(),
+                        on_complete: move || {
+                            is_skills_hard_cmd_typed.set(true);
+                        },
+                        class: "hard_skill_spaces"
+                    }
+                    span {" {Python.years}yrs"}
+                }
+            }
         }
         div {
             id: "links",
@@ -134,7 +234,10 @@ fn TypedText(props: TypedTextProps) -> Element {
     });
 
     rsx! {
-        div { "{typed_text}" }
+        div { 
+            class: if props.class.is_some() { props.class },
+            "{typed_text}" 
+        }
     }
 }
 
