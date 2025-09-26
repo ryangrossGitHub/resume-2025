@@ -195,7 +195,7 @@ fn TypedText(props: TypedTextProps) -> Element {
                 // Append the next character to the signal
                 typed_text.with_mut(|s| s.push(character));
                 
-                TimeoutFuture::new(10).await;
+                TimeoutFuture::new(50).await;
             }
             // Call the completion callback after the loop finishes.
             on_complete.call(());
