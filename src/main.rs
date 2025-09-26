@@ -4,6 +4,7 @@ use dioxus::prelude::*;
 use gloo_timers::future::TimeoutFuture;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
+const TIMELINE_IMG: Asset = asset!("/assets/timeline.png");
 const MAIN_CSS: Asset = asset!("/assets/main.css");
 
 const NAME: &str = "Ryan Gross";
@@ -22,6 +23,9 @@ const SKILLS_SOFT_RESPONSE: &str = "Agile: 13yrs | Principal Investigator/Produc
 const SKILLS_HARD_COMMAND: &str = " >> skills --hard --professional ";
 const SKILLS_HARD_RESPONSE_SPACE: &str = "_";
 const SKILLS_HARD_RESPONSE_SPACE_MULTIPLIER: usize = 6;
+
+const TIMELINE_COMMAND: &str = " >> timeline ";
+const HOBBIES_COMMAND: &str = " >> hobbies --order=relevance ";
 
 fn main() {
     dioxus::launch(App);
@@ -65,6 +69,8 @@ fn Terminal() -> Element {
     let mut is_credentials_cmd_typed = use_signal(|| false);
     let mut is_skills_soft_cmd_typed = use_signal(|| false);
     let mut is_skills_hard_cmd_typed = use_signal(|| false);
+    let mut is_timeline_cmd_typed = use_signal(|| false);
+    let mut is_hobbies_cmd_typed = use_signal(|| false);
     rsx! {
         div {
             id: "terminal",
@@ -114,30 +120,40 @@ fn Terminal() -> Element {
                 }
             }
             if is_skills_hard_cmd_typed() {
-                HardSkillTemplate { 
-                    lang: "Java",
-                    years: 13,
-                    color: "red"
-                },
-                HardSkillTemplate { 
-                    lang: "SQL",
-                    years: 11,
-                    color: "white"
-                },
-                HardSkillTemplate { 
-                    lang: "AWS",
-                    years: 10,
-                    color: "orange"
-                },
-                HardSkillTemplate { 
-                    lang: "Docker",
-                    years: 6,
-                    color: "blue"
-                },
-                HardSkillTemplate { 
-                    lang: "Python",
-                    years: 3,
-                    color: "purple"
+                HardSkill { lang: "Java", years: 13, color: "red" },
+                HardSkill { lang: "SQL", years: 11, color: "white" },
+                HardSkill { lang: "AWS", years: 10, color: "orange" },
+                HardSkill { lang: "Docker", years: 6, color: "blue" },
+                HardSkill { lang: "Python", years: 3, color: "purple" }
+                div { class: "response" }
+                TypedText { 
+                    text: "{TIMELINE_COMMAND}",
+                    on_complete: move || {
+                        is_timeline_cmd_typed.set(true);
+                    }
+                }
+            }
+            if is_timeline_cmd_typed() {
+                img { src: TIMELINE_IMG }
+                TypedText { 
+                    text: "{HOBBIES_COMMAND}",
+                    on_complete: move || {
+                        is_hobbies_cmd_typed.set(true);
+                    }
+                }
+            }
+            if is_hobbies_cmd_typed() {
+                div {
+                    span { "ollama/llms " } 
+                    span { color: "orange", "rust "}
+                    span { color: "#00bfff", "Neo" }
+                    span { color: "green", "Vim " }
+                    span { color: "red", "Rasberry " }
+                    span { color: "#f2985c", "Pie " }
+                    span {  "audiobooks golf(mid 90s) " }
+                    span { color: "lime", "lawncare" }
+                    span { "(Tall Fescue) " }
+                    span {  color: "yellow", "tennis" }
                 }
             }
         }
@@ -150,7 +166,7 @@ fn Terminal() -> Element {
 }
 
 #[component]
-fn HardSkillTemplate(props: HardSkillProps) -> Element {
+fn HardSkill(props: HardSkillProps) -> Element {
     rsx! {
         div {
             span { class: "hard_skill_name", color: props.color, "{props.lang} "} 

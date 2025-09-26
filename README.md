@@ -1,6 +1,6 @@
 # Mockup
 
-![Mockup](mockup.png)
+![Screenshot](screenshot.png)
 
 
 # Development
