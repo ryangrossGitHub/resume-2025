@@ -1,4 +1,4 @@
-# Mockup
+# Screenshot
 
 ![Screenshot](screenshot.png)
 
