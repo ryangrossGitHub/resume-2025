@@ -31,12 +31,18 @@ body {
   display: inline;
 }
 
+.hard_skill_name {
+  font-weight: bold;
+  display: inline-block;
+  width: 70px;
+}
+
 #links {
     flex-direction: column;
     display: flex;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 6px;
+    right: 10px;
 }
 
 #header {
