@@ -1,6 +1,6 @@
-# Screenshot
+# Demo
 
-![Screenshot](screenshot.png)
+![Demo](demo.gif)
 
 
 # Development
